@@ -1,0 +1,6 @@
+---
+- name: "Configures vim"
+  hosts: localhost
+
+  roles: 
+  - { role: vulturm.vim-config }

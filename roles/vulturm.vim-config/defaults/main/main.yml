@@ -1,0 +1,37 @@
+# defaults file for vim
+
+# file paths
+vim_config_entrypoint: ~/.vimrc
+vim_config_plugins_file: ~/.vim/vimrc.plugins
+vim_config_defaults_file: ~/.vim/vimrc.defaults
+#-- user provided file that ansible won't touch
+vim_config_user_file: ~/.vim/vimrc.local
+
+# do we also want to install our defaults ?
+vim_config_deploy_defaults_file: true
+
+#-- plugins
+vim_config_install_plugins:
+  - 'scrooloose/syntastic'
+  - 'vim-scripts/bash-support.vim'
+  - 'pearofducks/ansible-vim'
+  - 'Glench/Vim-Jinja2-Syntax'
+  - 'godlygeek/tabular'
+  - 'plasticboy/vim-markdown'
+  - 'vim-airline/vim-airline'          # theme
+
+#-- Custom syntax. Usually used for plugins customization
+vim_config_custom_syntax: |
+  " ansible related
+  au BufRead,BufNewFile */roles/*.yml set filetype=yaml.ansible
+  let g:ansible_attribute_highlight = "ob"
+  let g:ansible_name_highlight = "d"
+  let g:ansible_extra_keywords_highlight = 1
+  " syntastics related
+  set statusline+=%#warningmsg#
+  set statusline+=%{SyntasticStatuslineFlag()}
+  set statusline+=%*
+  let g:syntastic_always_populate_loc_list = 1
+  let g:syntastic_auto_loc_list = 1
+  let g:syntastic_check_on_open = 1
+  let g:syntastic_check_on_wq = 0

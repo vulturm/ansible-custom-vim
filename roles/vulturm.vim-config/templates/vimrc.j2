@@ -1,0 +1,15 @@
+" {{ ansible_managed }}
+if filereadable(expand("{{ vim_config_plugins_file }}"))
+  source {{ vim_config_plugins_file }}  " load default plugin bundles
+endif
+
+{% if vim_config_deploy_defaults_file %}
+" include our defaults file
+source {{ vim_config_defaults_file }}
+
+{% endif %}
+
+" Possible user Local config that ansible won't touch
+if filereadable(expand("{{ vim_config_user_file }}"))
+  source {{ vim_config_user_file }}
+endif

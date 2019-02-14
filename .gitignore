@@ -1,0 +1,36 @@
+# Ansible
+*.retry
+*.ansible_facts/
+
+# used to declare our dependencies for ansible-galaxy
+# we keep this inside our roles folder 
+# and exclude it from ignore list
+!requirements.yml
+
+# Swap files
+*.swo
+*.swp
+
+# Python bytecode
+*.pyc
+
+# Pytest
+.cache
+
+# Tox
+.tox
+
+# Vagrant
+.vagrant
+*.log
+
+# Molecule
+.molecule
+
+# self-signed generated ssl keys -- to be removed when we will use those from vault
+keys/*
+!keys/.gitkeep*
+
+# we don't need those versioned in SCM as we will download them with
+# 'ansible-galaxy' before run
+dependencies/*

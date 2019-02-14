@@ -1,0 +1,11 @@
+---
+dependencies: []
+
+galaxy_info:
+  author: Mihai Vultur
+  description: Configure VIM in our development box with syntax highlight.
+  min_ansible_version: 1.8
+  platforms:
+    - name: EL
+      versions:
+      - 7

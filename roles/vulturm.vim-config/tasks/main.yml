@@ -1,0 +1,76 @@
+---
+- name: "VIM Config | Ensure vim and git is already installed"
+  package:
+    name: ["git", "vim"]
+    state: present
+  tags:
+    - vim
+
+- name: "VIM Config | Find out if '.vimrc' is managed by ansible"
+  command: grep -q 'Ansible managed' {{ vim_config_entrypoint }}
+  register: vimrc_content
+  failed_when: vimrc_content.rc >= 3
+  tags:
+    - vim
+
+- name: "VIM Config | Found '.vimrc' not managed by ansible."
+  pause:
+    prompt: |
+      WARNING: Found existing '.vimrc' file that is not managed by ansible.
+      If you continue, the existing '.vimrc' file will be overwritten.
+      If you want to keep your current customizations, save them in '{{ vim_config_user_file }}'.
+      Playbook paused... hit <enter> to continue or <ctrl-c a> to abort.
+  when: vimrc_content.rc == 1
+  tags:
+    - vim
+
+- name: "VIM Config | Git clone Vundle"
+  git:
+    repo: "{{ vim_vundle_repo }}"
+    dest: "{{ vim_vundle_dest }}"
+    version: "{{ vim_vundle_version }}"
+  tags:
+    - vim
+
+- name: 'VIM Config | Install default configuration'
+  template:
+    src: vimrc.j2
+    dest: "{{ vim_config_entrypoint }}"
+    mode: 0644
+  tags:
+    - vim
+
+- name: 'VIM Config | Install default plugins'
+  template:
+    src: vimrc.plugins.j2
+    dest: "{{ vim_config_plugins_file }}"
+    mode: 0644
+  tags:
+    - vim
+
+- name: 'VIM Config | Install vimrc.defaults'
+  template:
+    src: vimrc.defaults.j2
+    dest: "{{ vim_config_defaults_file }}"
+    mode: 0644
+  when: "vim_config_deploy_defaults_file == True"
+  tags:
+    - vim
+
+- name: 'VIM Config | Modify tmux config to accomodate vim colors'
+  template:
+    src: .tmux.conf.j2
+    dest: "~/.tmux.conf"
+    mode: 0644
+  tags:
+    - vim
+
+- name: "VIM Config | Run PluginInstall"
+  command: "vim +PluginInstall +qall"
+  tags:
+    - vim
+
+- name: "VIM Config | Run PluginClean"
+  command: "vim +PluginClean! +qall"
+  tags:
+    - vim
