@@ -14,7 +14,6 @@ vim_config_deploy_defaults_file: true
 vim_config_install_plugins:
   - 'scrooloose/syntastic'
   - 'vim-scripts/bash-support.vim'
-  - 'Glench/Vim-Jinja2-Syntax'
   - 'godlygeek/tabular'
   - 'sheerun/vim-polyglot'
   - 'vim-airline/vim-airline'          # theme
@@ -36,3 +35,4 @@ vim_config_custom_syntax: |
   let g:syntastic_check_on_wq = 0
   let g:jsx_ext_required = 1
   let g:polyglot_disabled = ['jsx']
+  let g:syntastic_python_flake8_args='--ignore=E501'
