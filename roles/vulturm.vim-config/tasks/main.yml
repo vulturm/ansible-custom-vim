@@ -3,6 +3,7 @@
   package:
     name: ["git", "vim"]
     state: present
+  become: true
   tags:
     - vim
 
